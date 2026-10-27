@@ -1,0 +1,117 @@
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Fundo vermelho temático suave e elegante */
+  background: linear-gradient(135deg, #b30000 0%, #e63946 50%, #f1faee 100%);
+  min-height: 100vh;
+}
+
+/* Cena da Pokébola ampliada (maior) */
+.pokeball-scene {
+  width: 280px;
+  height: 320px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Metades maiores e mais detalhadas */
+.ball-half {
+  position: absolute;
+  width: 260px;
+  height: 130px;
+  left: 10px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.ball-top {
+  top: 15px;
+  background: linear-gradient(145deg, #ff4d4d, #cc0000);
+  border-top-left-radius: 130px;
+  border-top-right-radius: 130px;
+  border-bottom: 5px solid #111;
+}
+
+.ball-bottom {
+  bottom: 15px;
+  background: linear-gradient(145deg, #ffffff, #e5e7eb);
+  border-bottom-left-radius: 130px;
+  border-bottom-right-radius: 130px;
+  border-top: 5px solid #111;
+}
+
+/* Interior tecnológico azulado em favo de mel */
+.tech-interior {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  background-image: radial-gradient(#38bdf8 15%, transparent 16%), radial-gradient(#38bdf8 15%, transparent 16%);
+  background-size: 14px 14px;
+  background-position: 0 0, 7px 7px;
+  opacity: 0.85;
+  z-index: 1;
+}
+
+/* Botão central metálico */
+.ball-button {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  background: linear-gradient(135deg, #f3f4f6, #9ca3af);
+  border: 5px solid #111;
+  border-radius: 50%;
+  z-index: 4;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+/* Imagem do Pokémon perfeitamente dimensionada no centro */
+.pokemon-wrapper {
+  position: absolute;
+  z-index: 2;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pokemon-wrapper img {
+  max-width: 185px;
+  max-height: 185px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.2));
+}
+
+/* Animação mecânica de abertura */
+.opened .ball-top {
+  transform: translateY(-130px);
+}
+
+.opened .ball-bottom {
+  transform: translateY(130px);
+}
+
+.opened .ball-button {
+  transform: scale(0);
+  opacity: 0;
+}
+
+.opened .pokemon-wrapper {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.progress {
+  background-color: #f1f3f5;
+}
+
+.card {
+  backdrop-filter: blur(10px);
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PokéLab - Explorador Pokémon</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- Cabeçalho limpo -->
+  <nav class="navbar navbar-light bg-white border-bottom py-2 mb-4 shadow-sm">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a class="navbar-brand fw-bold d-flex align-items-center m-0 text-danger" href="#">
+        <span class="rounded-circle bg-danger d-inline-block me-2 shadow-sm" style="width: 12px; height: 12px;"></span>
+        PokéLab
+      </a>
+      <span class="text-muted small fw-medium">Pokédex interativa</span>
+    </div>
+  </nav>
+
+  <!-- Conteúdo Principal -->
+  <main class="container my-auto py-3">
+    <div class="row justify-content-center align-items-center g-4">
+      
+      <!-- COLUNA DA POKÉBOLA (Maior e Centralizada) -->
+      <div class="col-lg-5 text-center">
+        <div class="card shadow border-0 rounded-4 bg-white p-4 mx-auto" style="max-width: 440px;">
+          
+          <div class="d-flex justify-content-between align-items-center w-100 mb-2">
+            <span class="fw-bold text-uppercase text-muted small tracking-wider" style="font-size: 0.75rem;">Pokébola</span>
+            <span id="status-badge" class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 fw-medium px-2 py-1" style="font-size: 0.75rem;">Pronta para abrir</span>
+          </div>
+
+          <!-- Cena da Pokébola Grande -->
+          <div id="pokeball-scene" class="pokeball-scene my-3 position-relative">
+            <div id="pb-top" class="ball-half ball-top"></div>
+            
+            <div id="pokemon-wrapper" class="pokemon-wrapper">
+              <img id="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Pokébola" class="img-fluid poke-graphic">
+            </div>
+            
+            <div id="pb-bottom" class="ball-half ball-bottom"></div>
+            <div class="ball-button"></div>
+          </div>
+
+          <div class="mt-2">
+            <p id="poke-status" class="fw-semibold text-secondary mb-3 small">Um Pokémon está esperando por você</p>
+            <!-- Botão menor e centralizado -->
+            <button id="btn-abrir" class="btn btn-danger px-4 py-2 rounded-pill fw-bold shadow-sm mx-auto d-inline-flex align-items-center justify-content-center text-white" style="font-size: 0.9rem;">
+              <span class="me-2">⚡</span> Abrir Pokébola
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- COLUNA DA POKÉDEX (Mais compacta e elegante) -->
+      <div class="col-lg-7" id="pokedex-column" style="display: none;">
+        <div class="card shadow border-0 rounded-4 bg-white h-100">
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold text-uppercase text-muted small" style="font-size: 0.75rem;">Pokédex</span>
+                <span id="poke-id" class="text-muted fw-semibold small">#0000</span>
+              </div>
+
+              <h2 id="poke-name" class="fw-bold text-dark fs-3 mb-2">Nome do Pokémon</h2>
+              
+              <div class="mb-3">
+                <span class="text-muted small d-block mb-1" style="font-size: 0.7rem;">Tipo</span>
+                <span id="poke-type" class="badge bg-warning text-dark border px-3 py-1 fw-medium">Tipo</span>
+              </div>
+
+              <div class="row text-center border-top border-bottom py-2 mb-3 g-2 bg-light bg-opacity-50 rounded-3">
+                <div class="col-4 border-end">
+                  <span class="text-muted small d-block" style="font-size: 0.7rem;">Altura</span>
+                  <span id="poke-height" class="fw-bold text-dark small">—</span>
+                </div>
+                <div class="col-4 border-end">
+                  <span class="text-muted small d-block" style="font-size: 0.7rem;">Peso</span>
+                  <span id="poke-weight" class="fw-bold text-dark small">—</span>
+                </div>
+                <div class="col-4">
+                  <span class="text-muted small d-block" style="font-size: 0.7rem;">Habilidade</span>
+                  <span id="poke-ability" class="fw-bold text-dark small text-truncate d-inline-block" style="max-width: 100%;">—</span>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <span class="fw-bold text-dark small d-block mb-1" style="font-size: 0.75rem;">Sobre</span>
+                <p id="poke-desc" class="text-muted small mb-0 lh-sm" style="font-size: 0.82rem;">Descrição gerada dinamicamente.</p>
+              </div>
+            </div>
+
+            <!-- Atributos Básicos Compactos -->
+            <div id="poke-stats-container" class="mt-2 pt-2 border-top">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-bold text-dark small" style="font-size: 0.75rem;">Atributos básicos</span>
+                <span id="stat-total" class="text-muted small fw-medium" style="font-size: 0.75rem;">Total: —</span>
+              </div>
+
+              <div class="mb-1"><div class="d-flex justify-content-between small text-muted mb-0" style="font-size: 0.73rem;"><span>HP</span><span id="val-hp" class="fw-bold text-dark">0</span></div><div class="progress" style="height: 5px;"><div id="bar-hp" class="progress-bar bg-danger rounded-pill" style="width: 0%"></div></div></div>
+              <div class="mb-1"><div class="d-flex justify-content-between small text-muted mb-0" style="font-size: 0.73rem;"><span>Ataque</span><span id="val-atk" class="fw-bold text-dark">0</span></div><div class="progress" style="height: 5px;"><div id="bar-atk" class="progress-bar bg-danger rounded-pill" style="width: 0%"></div></div></div>
+              <div class="mb-1"><div class="d-flex justify-content-between small text-muted mb-0" style="font-size: 0.73rem;"><span>Defesa</span><span id="val-def" class="fw-bold text-dark">0</span></div><div class="progress" style="height: 5px;"><div id="bar-def" class="progress-bar bg-danger rounded-pill" style="width: 0%"></div></div></div>
+              <div class="mb-1"><div class="d-flex justify-content-between small text-muted mb-0" style="font-size: 0.73rem;"><span>Atq. especial</span><span id="val-spatk" class="fw-bold text-dark">0</span></div><div class="progress" style="height: 5px;"><div id="bar-spatk" class="progress-bar bg-danger rounded-pill" style="width: 0%"></div></div></div>
+              <div class="mb-1"><div class="d-flex justify-content-between small text-muted mb-0" style="font-size: 0.73rem;"><span>Def. especial</span><span id="val-spdef" class="fw-bold text-dark">0</span></div><div class="progress" style="height: 5px;"><div id="bar-spdef" class="progress-bar bg-danger rounded-pill" style="width: 0%"></div></div></div>
+              <div class="mb-1"><div class="d-flex justify-content-between small text-muted mb-0" style="font-size: 0.73rem;"><span>Velocidade</span><span id="val-speed" class="fw-bold text-dark">0</span></div><div class="progress" style="height: 5px;"><div id="bar-speed" class="progress-bar bg-danger rounded-pill" style="width: 0%"></div></div></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="container text-center py-2 text-white-50 small mt-auto" style="font-size: 0.75rem;">
+    PokéLab / Explorador Pokémon
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
